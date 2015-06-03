@@ -5,7 +5,6 @@ python: "2.7"
 before_install:
 # Make sure everything's up to date.
  - sudo apt-get update -qq
- - dpkg -l | grep cassandra
  - sudo apt-get remove cassandra -y
  - sudo apt-get purge cassandra -y
 
