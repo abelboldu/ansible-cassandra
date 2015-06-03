@@ -5,6 +5,7 @@ python: "2.7"
 before_install:
 # Make sure everything's up to date.
  - sudo apt-get update -qq
+ - dpkg -l | grep cassandra
  - sudo apt-get remove cassandra -y
  - sudo apt-get purge cassandra -y
 
@@ -23,6 +24,6 @@ script:
   - >
     ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo
   
-  - ls /var/log/cassandra/*
+  - tail -n80 /var/log/cassandra/system.log
   # Check cassandra
   - nodetool -host 127.0.0.1 status
