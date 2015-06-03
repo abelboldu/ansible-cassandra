@@ -1,0 +1,7 @@
+---
+
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: ansible-cassandra
+      cassandra_hosts: '{{ groups["all"] }}'

@@ -1,0 +1,29 @@
+---
+
+- name: Add datastax repo
+  template: src=datastax.repo dest=/etc/yum.repos.d/datastax.repo
+
+- name: Install Java
+  yum: name=java-1.7.0-openjdk-headless state=present
+  when: ansible_distribution_version.split(".")[0] == '7'
+
+- name: Install Java
+  yum: name=java-1.7.0-openjdk state=present
+  when: ansible_distribution_version.split(".")[0] == '6'
+
+- name: Install cassandra
+  yum: name=cassandra20 state=present
+  notify:
+    - Stop cassandra
+
+- meta: flush_handlers
+
+- name: clear data
+  shell: rm -rf /var/lib/cassandra/*
+
+- name: Configure cassandra
+  template: src=cassandra.yaml dest=/etc/cassandra/conf/cassandra.yaml
+  notify:
+    - Restart cassandra
+
+- meta: flush_handlers
