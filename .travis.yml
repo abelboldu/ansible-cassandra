@@ -21,5 +21,6 @@ script:
   - >
     ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo
   
+  - cat /var/log/cassandra/cassandra.log
   # Check cassandra
-  - nodetool -host 127.0.0.1 ring
+  - nodetool -host 127.0.0.1 status
