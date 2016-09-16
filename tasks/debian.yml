@@ -10,11 +10,8 @@
 - name: Add datastax repo
   apt_repository: repo='deb http://debian.datastax.com/community stable main' state=present
 
-- name: Install openjdk 7
-  apt: name=openjdk-7-jre-headless state=present
-
 - name: Install cassandra
-  apt: name=cassandra=2.0.10 state=present
+  apt: name=cassandra=2.2.4 state=present
   notify:
     - Stop cassandra
 
