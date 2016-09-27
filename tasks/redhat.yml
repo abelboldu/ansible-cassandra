@@ -12,7 +12,7 @@
   when: ansible_distribution_version.split(".")[0] == '6'
 
 - name: Install cassandra
-  yum: name=cassandra20-2.0.10 state=present
+  yum: name=cassandra22-2.2.7 state=present
 
 - name: Force systemd daemon reload
   command: systemctl daemon-reload
