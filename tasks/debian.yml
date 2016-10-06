@@ -13,7 +13,7 @@
   shell: curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
   when: apt_key.rc != 0
 
-- name:  Add datastax repo
+- name: Add datastax repo
   apt_repository: repo='deb http://debian.datastax.com/community stable main' state=present
   retries: 3
 
