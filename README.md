@@ -18,7 +18,7 @@ Example Playbook
 
     hosts: cassandra
       roles:
-        - role: abelboldu.cassandra
+        - role: ansible-cassandra
           cassandra_hosts: '{{ groups["cassandra"] }}'
 
 License
