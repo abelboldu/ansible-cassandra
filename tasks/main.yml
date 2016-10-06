@@ -1,7 +1,31 @@
 ---
 
+- include: facts.yml
+
 - include: redhat.yml
   when: ansible_os_family == 'RedHat'
 
 - include: debian.yml
   when: ansible_os_family == 'Debian'
+
+- meta: flush_handlers
+
+- name: Set cassandra seeds into a single variable
+  set_fact:
+    seeds: "{% for host in cassandra_hosts %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}"
+
+# TODO: move away from {{ ansible_default_ipv4.address }} to support multihomed nets
+- name: Configure cassandra
+  lineinfile:
+    dest: "{{ yaml_config_file }}"
+    backrefs: yes
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^([ ]*- seeds:)', line: '\1 {{ seeds }}' }
+    - { regexp: '^([ ]*listen_address:)', line: '\1 {{ ansible_default_ipv4.address }}' }
+    - { regexp: '^([ ]*rpc_address:)', line: '\1 {{ ansible_default_ipv4.address }}' }
+    - { regexp: '^([ ]*cluster_name:)', line: '\1 {{ cluster_name }}' }
+  notify:
+    - Restart cassandra
+
