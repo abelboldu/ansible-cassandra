@@ -3,28 +3,12 @@
 - name: Add datastax repo
   template: src=datastax.repo dest=/etc/yum.repos.d/datastax.repo
 
-- name: Install Java
-  yum: name=java-1.7.0-openjdk-headless state=present
-  when: ansible_distribution_version.split(".")[0] == '7'
-
-- name: Install Java
-  yum: name=java-1.7.0-openjdk state=present
-  when: ansible_distribution_version.split(".")[0] == '6'
-
 - name: Install cassandra
-  yum: name=cassandra22-2.2.7 state=present
-
-- name: Force systemd daemon reload
-  command: systemctl daemon-reload
-
-- meta: flush_handlers
-
-- name: clear data
-  shell: rm -rf /var/lib/cassandra/*
-
-- name: Configure cassandra
-  template: src=cassandra.yaml dest=/etc/cassandra/conf/cassandra.yaml
+  yum: name=cassandra22 state=present
+  register: cass_package
   notify:
-    - Restart cassandra
+    - Stop cassandra
+    - Clear cassandra data dir
 
 - meta: flush_handlers
+
