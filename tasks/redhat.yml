@@ -10,5 +10,9 @@
     - Stop cassandra
     - Clear cassandra data dir
 
+- name: Run `systemctl daemon-reload` command
+  command: 'systemctl daemon-reload'
+  when: cass_package|changed
+
 - meta: flush_handlers
 
