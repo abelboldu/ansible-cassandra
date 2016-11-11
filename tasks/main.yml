@@ -29,3 +29,20 @@
   notify:
     - Restart cassandra
 
+- name: Configure MAX_HEAP_SIZE for JVM
+  lineinfile:
+    dest: '{{ cassandra_environment_script }}'
+    regexp: '^#*MAX_HEAP_SIZE='
+    line: 'MAX_HEAP_SIZE="{{ cassandra_max_heap_size }}"'
+    state: present
+  notify: Restart cassandra
+  when: cassandra_max_heap_size is defined
+
+- name: Configure HEAP_NEWSIZE for JVM
+  lineinfile:
+    dest: '{{ cassandra_environment_script }}'
+    regexp: '^#*HEAP_NEWSIZE='
+    line: 'HEAP_NEWSIZE="{{ cassandra_heap_newsize }}"'
+    state: present
+  notify: Restart cassandra
+  when: cassandra_heap_newsize is defined

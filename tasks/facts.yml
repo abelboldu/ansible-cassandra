@@ -3,9 +3,11 @@
 - name: Set cassandra yaml configuration file path on Fedora-based distros
   set_fact:
     yaml_config_file: "/etc/cassandra/conf/cassandra.yaml"
+    cassandra_environment_script: '/etc/cassandra/conf/cassandra-env.sh'
   when: ansible_os_family == 'RedHat'
 
 - name: Set cassandra yaml configuration file path Debian-based distros
   set_fact:
     yaml_config_file: "/etc/cassandra/cassandra.yaml"
+    cassandra_environment_script: '/etc/cassandra/cassandra-env.sh'
   when: ansible_os_family == 'Debian'
