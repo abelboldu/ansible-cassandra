@@ -1,23 +1,44 @@
 ---
-language: python
-python: "2.7"
 
-before_install:
-# Make sure everything's up to date.
- - sudo apt-get update -qq
+dist: 'trusty'
+
+env:
+  global:
+    - ANSIBLE_FORCE_COLOR: True
+    - ANSIBLE_LOG_PATH: './ansible.log'
+    - ANSIBLE_ROLES_PATH: '../'
+
+language: 'python'
+
+python:
+  - '2.7'
+
+sudo: 'required'
+
 
 install:
-  # Install Ansible.
-  - sudo pip install ansible
-  # Add ansible.cfg to pick up roles path.
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
-  
+  # Install test requirements
+  - 'pip install -r requirements-devel.txt'
+  - |
+    if [ -f tests/requirements.yml ]; then
+      ansible-galaxy install -r tests/requirements.yml
+    fi
 
 script:
-# Check the role/playbook's syntax.
-  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
+  # Check syntax of YAML files.
+  - 'yamllint -c .yamllint.conf .'
 
-  # Run the role/playbook with ansible-playbook.
-  - >
-    ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo
-  
+  # Check syntax of role.
+  - 'ansible-playbook -i localhost, -c local tests/test.yml --syntax-check'
+
+  # Run role.
+  - 'ansible-playbook -i localhost, -c local tests/test.yml --diff --verbose'
+
+  # Run role again to check idempotence failure.
+  - 'ansible-playbook -i localhost, -c local tests/test.yml --diff --verbose'
+
+  # Detect idempotence failure.
+  - 'tail -n 5 ansible.log | grep -Eq "changed=0 +unreachable=0 +failed=0"'
+
+notifications:
+  webhooks: 'https://galaxy.ansible.com/api/v1/notifications/'

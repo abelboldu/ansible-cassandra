@@ -1,8 +1,11 @@
 ---
 
-- hosts: cassandra
-  remote_user: root
+- hosts: all
   become: True
+
   roles:
+    - role: midonet-repo
+
     - role: ansible-cassandra
-      cassandra_hosts: '{{ groups["cassandra"] }}'
+      cassandra_hosts:
+        - '{{ inventory_hostname }}'

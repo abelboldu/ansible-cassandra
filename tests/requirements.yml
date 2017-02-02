@@ -1,0 +1,4 @@
+---
+
+- name: 'midonet-repo'
+  src: 'https://github.com/midonet/ansible-midonet-repo'
