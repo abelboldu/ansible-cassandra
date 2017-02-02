@@ -6,14 +6,14 @@ galaxy_info:
   license: Apache
   min_ansible_version: 1.2
   platforms:
-  - name: EL
-    versions:
-    - 6
-    - 7
-  - name: Ubuntu
-    versions:
-    - precise
-    - trusty
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: Ubuntu
+      versions:
+        - precise
+        - trusty
   categories:
-  - cloud
+    - cloud
 dependencies: []

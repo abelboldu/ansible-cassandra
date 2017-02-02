@@ -1,4 +1,5 @@
 ---
+
 - name: Stop cassandra
   service:
     name: cassandra

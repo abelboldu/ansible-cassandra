@@ -22,10 +22,10 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
-    - { regexp: '^([ ]*- seeds:)', line: '\1 {{ cassandra_seeds }}' }
-    - { regexp: '^([ ]*listen_address:)', line: '\1 {{ cassandra_listen_address }}' }
-    - { regexp: '^([ ]*rpc_address:)', line: '\1 {{ cassandra_rpc_address }}' }
-    - { regexp: '^([ ]*cluster_name:)', line: '\1 {{ cassandra_cluster_name }}' }
+    - {regexp: '^([ ]*- seeds:)', line: '\1 {{ cassandra_seeds }}'}
+    - {regexp: '^([ ]*listen_address:)', line: '\1 {{ cassandra_listen_address }}'}
+    - {regexp: '^([ ]*rpc_address:)', line: '\1 {{ cassandra_rpc_address }}'}
+    - {regexp: '^([ ]*cluster_name:)', line: '\1 {{ cassandra_cluster_name }}'}
   notify:
     - Restart cassandra
 
