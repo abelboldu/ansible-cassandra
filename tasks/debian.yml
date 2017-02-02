@@ -28,7 +28,7 @@
 
 - name: Install cassandra
   apt:
-    name: cassandra=2.2.7
+    name: cassandra=2.2.8
     state: present
   register: cass_package
   notify:
