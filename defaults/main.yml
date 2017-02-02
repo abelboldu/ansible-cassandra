@@ -1,3 +1,6 @@
 ---
 
-cluster_name: midonet
+cassandra_listen_address: '{{ ansible_default_ipv4.address }}'
+cassandra_rpc_address: '{{ ansible_default_ipv4.address }}'
+cassandra_cluster_name: 'midonet'
+cassandra_hosts: ['localhost']
