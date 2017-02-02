@@ -12,7 +12,8 @@
 
 - name: Set cassandra seeds into a single variable
   set_fact:
-    cassandra_seeds: "{% for host in cassandra_hosts %}{{ hostvars[host][ansible_host] | default(inventory_hostname) }}{% if not loop.last %},{% endif %}{% endfor %}"
+    cassandra_seeds: >
+      "{% for host in cassandra_hosts %}{{ hostvars[host][ansible_host] | default(inventory_hostname) }}{% if not loop.last %},{% endif %}{% endfor %}"
 
 - name: Configure cassandra
   lineinfile:

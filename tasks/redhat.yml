@@ -1,10 +1,14 @@
 ---
 
 - name: Add datastax repo
-  template: src=datastax.repo dest=/etc/yum.repos.d/datastax.repo
+  template:
+    src: datastax.repo
+    dest: /etc/yum.repos.d/datastax.repo
 
 - name: Install cassandra
-  yum: name=cassandra22 state=present
+  yum:
+    name: cassandra22
+    state: present
   register: cass_package
   notify:
     - Stop cassandra
@@ -15,4 +19,3 @@
   when: cass_package|changed
 
 - meta: flush_handlers
-

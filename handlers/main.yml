@@ -1,20 +1,26 @@
 ---
 - name: Stop cassandra
-  service: name=cassandra state=stopped
+  service:
+    name: cassandra
+    state: stopped
 
 - name: Start cassandra
-  service: name=cassandra state=started
+  service:
+    name: cassandra
+    state: started
 
 - name: Restart cassandra
-  service: name=cassandra state=restarted
+  service:
+    name: cassandra
+    state: restarted
 
 - name: Clear cassandra data dir
-  shell: rm -rf /var/lib/cassandra/data/*
-  notify:  Clear cassandra commitlog dir
+  shell: 'rm -rf /var/lib/cassandra/data/*'
+  notify: Clear cassandra commitlog dir
 
 - name: Clear cassandra commitlog dir
-  shell: rm -rf /var/lib/cassandra/commitlog/*
-  notify:  Clear cassandra saved_caches dir
+  shell: 'rm -rf /var/lib/cassandra/commitlog/*'
+  notify: Clear cassandra saved_caches dir
 
 - name: Clear cassandra saved_caches dir
-  shell: rm -rf /var/lib/cassandra/saved_cache/*
+  shell: 'rm -rf /var/lib/cassandra/saved_cache/*'

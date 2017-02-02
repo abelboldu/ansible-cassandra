@@ -1,7 +1,9 @@
 ---
 
 - name: Install curl
-  apt: name=curl state=present
+  apt:
+    name: curl
+    state: present
 
 - name: Check for datastax repo key presence
   shell: "apt-key list | grep B999A372"
@@ -10,11 +12,13 @@
   changed_when: False
 
 - name: Get datastax repo_key
-  shell: curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
+  shell: 'curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -'
   when: apt_key.rc != 0
 
 - name: Add datastax repo
-  apt_repository: repo='deb http://debian.datastax.com/community stable main' state=present
+  apt_repository:
+    repo: 'deb http://debian.datastax.com/community stable main'
+    state: present
   retries: 3
 
 - name: apt-get update
@@ -23,11 +27,12 @@
   when: apt_key.rc != 0
 
 - name: Install cassandra
-  apt: name=cassandra=2.2.7 state=present
+  apt:
+    name: cassandra=2.2.7
+    state: present
   register: cass_package
   notify:
     - Stop cassandra
     - Clear cassandra data dir
 
 - meta: flush_handlers
-
